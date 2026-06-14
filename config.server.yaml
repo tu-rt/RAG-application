@@ -18,7 +18,7 @@ models:
   embedding: "BAAI/bge-small-zh-v1.5"
   embedding_device: "cuda"
   # 后训练项目已上传的 7B（目录名以服务器 ls 结果为准）
-  llm: "/home/huiwei/BGHModel/trtModel/post-training/models/Qwen2.5-7B"
+  llm: "/path/to/Qwen2.5-7B"  # 按服务器实际路径修改
   llm_device: "cuda"
   use_4bit: false          # 4090 24GB 可直接 fp16；若显存紧张改 true
   llm_fallback: null       # 7B 正常则不需要回退
@@ -43,7 +43,7 @@ huggingface:
   # 代码会自动在下列位置查找 Qwen2.5-7B-Instruct：
   #   {models_local_dir}/Qwen2.5-7B-Instruct
   #   {models_local_dir}/Qwen/Qwen2.5-7B-Instruct
-  models_local_dir: "/home/huiwei/BGHModel/trtModel/post-training/models"
+  models_local_dir: "/path/to/models"  # 按服务器实际路径修改
 
   # 可选：统一 HF 下载缓存（嵌入/重排模型首次下载用）
   cache_dir: null
