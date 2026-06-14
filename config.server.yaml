@@ -1,0 +1,49 @@
+# 实验室 4090 服务器配置（复制为 config.yaml 或 --config config.server.yaml）
+# 与后训练项目共用 TRT 虚拟环境 + 已上传的 7B 模型
+
+project:
+  name: "中文文档 RAG 问答与检索评测（4090 服务器）"
+  results_dir: "results"
+  data_dir: "data"
+
+dataset:
+  name: "THUDM/LongBench"
+  config_name: "multifieldqa_zh"
+  max_samples: 50
+  seed: 42
+
+models:
+  # 方式 A：填 HuggingFace ID + models_local_dir（自动找本地子目录）
+  # 方式 B：直接填绝对路径（推荐，最明确）
+  embedding: "BAAI/bge-small-zh-v1.5"
+  embedding_device: "cuda"
+  # 后训练项目已上传的 7B（目录名以服务器 ls 结果为准）
+  llm: "/home/huiwei/BGHModel/trtModel/post-training/models/Qwen2.5-7B"
+  llm_device: "cuda"
+  use_4bit: false          # 4090 24GB 可直接 fp16；若显存紧张改 true
+  llm_fallback: null       # 7B 正常则不需要回退
+  use_4bit_fallback: false
+  reranker: "BAAI/bge-reranker-base"
+  reranker_device: "cuda"
+  enable_reranker: true
+
+rag:
+  chunk_sizes: [256, 512]
+  chunk_overlap: 64
+  top_k: 5
+  rerank_top_k: 5
+  max_new_tokens: 256
+  temperature: 0.1
+
+experiments:
+  run_ids: ["R0", "R1", "R2", "R3", "R4"]
+
+huggingface:
+  # 指向后训练项目已上传模型的根目录（按实际路径修改）
+  # 代码会自动在下列位置查找 Qwen2.5-7B-Instruct：
+  #   {models_local_dir}/Qwen2.5-7B-Instruct
+  #   {models_local_dir}/Qwen/Qwen2.5-7B-Instruct
+  models_local_dir: "/home/huiwei/BGHModel/trtModel/post-training/models"
+
+  # 可选：统一 HF 下载缓存（嵌入/重排模型首次下载用）
+  cache_dir: null

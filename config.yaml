@@ -1,0 +1,48 @@
+# 4GB 显存优化配置（RTX 3060 Laptop）
+project:
+  name: "中文文档 RAG 问答与检索评测"
+  results_dir: "results"
+  data_dir: "data"
+
+dataset:
+  # LongBench 中文多字段 QA，免 API、体积适中
+  name: "THUDM/LongBench"
+  config_name: "multifieldqa_zh"
+  # 首次跑通用 dev 规模；正式评测可改为 50
+  max_samples: 50
+  # 评测子集随机种子
+  seed: 42
+
+models:
+  # 嵌入模型放 CPU，避免与 LLM 抢 4GB 显存
+  embedding: "BAAI/bge-small-zh-v1.5"
+  embedding_device: "cpu"
+  # 生成模型：1.5B + 4bit 约 2GB；若 bitsandbytes 报错见 README
+  llm: "Qwen/Qwen2.5-1.5B-Instruct"
+  llm_device: "cuda"
+  use_4bit: true
+  # 4bit 失败时的备选（约 1GB 显存，fp16）
+  llm_fallback: "Qwen/Qwen2.5-0.5B-Instruct"
+  use_4bit_fallback: false
+  # 重排器放 CPU（可选实验 R3）
+  reranker: "BAAI/bge-reranker-base"
+  reranker_device: "cpu"
+  enable_reranker: true
+
+rag:
+  chunk_sizes: [256, 512]
+  chunk_overlap: 64
+  top_k: 5
+  rerank_top_k: 5
+  max_new_tokens: 256
+  temperature: 0.1
+
+experiments:
+  # R0 无检索 / R1-R4 见 README
+  run_ids: ["R0", "R1", "R2", "R3", "R4"]
+
+huggingface:
+  # 国内可设镜像: export HF_ENDPOINT=https://hf-mirror.com
+  # 本地已 scp 的模型根目录（兼容后训练 models/Qwen2.5-7B/ 布局）；null 则仅用绝对路径或 HF 缓存
+  models_local_dir: null
+  cache_dir: null

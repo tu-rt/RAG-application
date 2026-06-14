@@ -1,0 +1,20 @@
+# 完整独立安装（无 TRT 环境时使用）
+# 与后训练 TRT 环境对齐的版本组合，避免 transformers 5.x 与 torch 2.5 不兼容
+#
+# 安装顺序:
+#   pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu121
+#   pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+#   pip check
+
+torch>=2.5.1,<2.6.0
+transformers>=4.46.0,<5.0.0
+accelerate>=0.33.0,<2.0.0
+sentence-transformers>=3.0.0,<4.0.0
+datasets>=2.20.0,<4.0.0
+huggingface-hub>=0.24.0
+pyyaml>=6.0
+tqdm>=4.66.0
+numpy>=1.24.0,<3.0.0
+pandas>=2.0.0
+gradio>=4.40.0,<6.0.0
+bitsandbytes>=0.43.0; platform_system != "Darwin"

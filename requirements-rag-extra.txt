@@ -1,0 +1,16 @@
+# 在已有 TRT（后训练）虚拟环境中额外安装 RAG 依赖
+# TRT 环境应已具备: torch==2.5.1+cu121, transformers==4.46.3, bitsandbytes, accelerate, peft, trl
+#
+# 用法:
+#   conda activate TRT
+#   pip install -r requirements-rag-extra.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+#   pip check
+
+sentence-transformers>=3.0.0,<4.0.0
+datasets>=2.20.0,<4.0.0
+huggingface-hub>=0.24.0
+pyyaml>=6.0
+tqdm>=4.66.0
+numpy>=1.24.0,<3.0.0
+pandas>=2.0.0
+gradio>=4.40.0,<6.0.0
