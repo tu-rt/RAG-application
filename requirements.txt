@@ -1,5 +1,5 @@
-# 完整独立安装（无 TRT 环境时使用）
-# 与后训练 TRT 环境对齐的版本组合，避免 transformers 5.x 与 torch 2.5 不兼容
+# 完整独立安装
+# 与后训练项目的实验环境对齐，避免 transformers 5.x 与 torch 版本不兼容
 #
 # 安装顺序:
 #   pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu121
